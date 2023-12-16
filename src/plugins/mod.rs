@@ -1,9 +1,11 @@
+pub mod assets;
 pub mod asteroids;
 pub mod camera;
 pub mod debug;
 pub mod movement;
 pub mod spaceship;
 
+pub use assets::AssetLoaderPlugin;
 pub use camera::CameraPlugin;
 pub use debug::DebugPlugin;
 pub use movement::MovementPlugin;

@@ -8,6 +8,8 @@ use crate::{
     components::{Acceleration, Velocity},
 };
 
+use super::assets::SceneAssets;
+
 const SPAWN_RANGE_X: Range<f32> = -25.0..25.0;
 const SPAWN_RANGE_Z: Range<f32> = 0.0..25.0;
 
@@ -34,7 +36,7 @@ fn spawn_asteroid(
     mut commands: Commands,
     mut spawn_timer: ResMut<SpawnTimer>,
     time: Res<Time>,
-    asset_server: Res<AssetServer>,
+    assets: Res<SceneAssets>,
 ) {
     spawn_timer.0.tick(time.delta());
     if !spawn_timer.0.just_finished() {
@@ -51,7 +53,7 @@ fn spawn_asteroid(
             velocity: Velocity(velocity),
             acceleration: Acceleration(acceleration),
             model: SceneBundle {
-                scene: asset_server.load("Rock.glb#Scene0"),
+                scene: assets.asteroid.clone(),
                 transform: Transform::from_translation(translation),
                 ..default()
             },

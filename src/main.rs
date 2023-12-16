@@ -7,11 +7,12 @@ use crate::plugins::DebugPlugin;
 use crate::plugins::{CameraPlugin, MovementPlugin, SpaceshipPlugin};
 
 use bevy::prelude::*;
-use plugins::asteroids::AsteroidPlugin;
+use plugins::{asteroids::AsteroidPlugin, AssetLoaderPlugin};
 
 fn main() {
     let mut app = App::new();
     let app = app.add_plugins(DefaultPlugins).add_plugins((
+        AssetLoaderPlugin,
         AsteroidPlugin,
         CameraPlugin,
         MovementPlugin,
