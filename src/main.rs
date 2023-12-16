@@ -1,3 +1,4 @@
+mod bundles;
 mod components;
 mod plugins;
 
@@ -6,10 +7,12 @@ use crate::plugins::DebugPlugin;
 use crate::plugins::{CameraPlugin, MovementPlugin, SpaceshipPlugin};
 
 use bevy::prelude::*;
+use plugins::asteroids::AsteroidPlugin;
 
 fn main() {
     let mut app = App::new();
     let app = app.add_plugins(DefaultPlugins).add_plugins((
+        AsteroidPlugin,
         CameraPlugin,
         MovementPlugin,
         SpaceshipPlugin,
