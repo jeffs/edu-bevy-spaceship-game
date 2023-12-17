@@ -53,9 +53,7 @@ fn get_rotation(keys: &Res<Input<KeyCode>>, time: &Res<Time>) -> f32 {
 }
 
 fn get_roll(keys: &Res<Input<KeyCode>>, time: &Res<Time>) -> f32 {
-    let left = keys.pressed(KeyCode::ShiftLeft);
-    let right = keys.pressed(KeyCode::ShiftRight);
-    let roll = left as i8 - right as i8;
+    let roll = keys.pressed(KeyCode::ShiftLeft) as i8;
     roll as f32 * SHIP_ROTATION_SPEED * time.delta_seconds()
 }
 

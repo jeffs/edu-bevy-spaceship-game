@@ -7,10 +7,11 @@ fn despawn_far_away_entities(
     query: Query<(Entity, &GlobalTransform)>,
     world: &World,
 ) {
-    for (entity, transform) in query
-        .iter()
-        .filter(|(_, transform)| transform.translation().distance(Vec3::ZERO) > DESPAWN_DISTANCE)
-    {
+    for (entity, transform) in query.iter().filter(|(_, transform)| {
+        // Delete anything far away, but only in the XZ plane (so we don't delete the camera).
+        let translation = transform.translation();
+        translation.distance(Vec3::ZERO) > DESPAWN_DISTANCE && translation.y == 0.0
+    }) {
         let Some(mut thing) = commands.get_entity(entity) else {
             // The entity was already despawned.
             continue;
