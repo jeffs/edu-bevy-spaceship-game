@@ -51,9 +51,16 @@ fn handle_collision(mut commands: Commands, query: Query<(Entity, &Collider), Wi
     }
 }
 
-fn rotate_asteroids(mut query: Query<&mut Transform, With<Asteroid>>, time: Res<Time>) {
-    for mut transform in query.iter_mut() {
+fn rotate_asteroids(
+    mut query: Query<(&Velocity, &GlobalTransform, &mut Transform), With<Asteroid>>,
+    time: Res<Time>,
+) {
+    for (velocity, global_transform, mut transform) in query.iter_mut() {
+        // transform.rotate_local_axis(velocity.0, ROTATION_SPEED * time.delta_seconds());
         transform.rotate_local_z(ROTATION_SPEED * time.delta_seconds());
+        debug_assert_eq!(transform.scale, Vec3::ONE);
+        debug_assert_eq!(transform.translation.y, 0.0);
+        debug_assert_eq!(global_transform.translation().y, 0.0);
     }
 }
 
