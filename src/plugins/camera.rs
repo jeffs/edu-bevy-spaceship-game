@@ -29,11 +29,8 @@ fn camera_movement(
     };
     let mut transform = query.single_mut();
     transform.translation.x += to_speed(KeyCode::A, KeyCode::D);
-    if keys.pressed(KeyCode::ShiftRight) {
-        transform.translation.y += to_speed(KeyCode::S, KeyCode::W);
-    } else {
-        transform.translation.z += to_speed(KeyCode::W, KeyCode::S);
-    }
+    transform.translation.y += to_speed(KeyCode::Q, KeyCode::E);
+    transform.translation.z += to_speed(KeyCode::W, KeyCode::S);
 }
 
 pub struct CameraPlugin;

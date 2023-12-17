@@ -38,6 +38,28 @@ fn spawn_spaceship(mut commands: Commands, assets: Res<SceneAssets>) {
     ));
 }
 
+fn handle_collision(
+    mut commands: Commands,
+    mut query: Query<(Entity, &Collider), With<Spaceship>>,
+) {
+    let Ok((entity, collider)) = query.get_single() else {
+        return;
+    };
+    let Some(ship) = commands.get_entity(entity) else {
+        return;
+    };
+    for other in collider
+        .collisions
+        .iter()
+        .cloned()
+        // Ignore collisions with other asteroids.
+        .filter(|&other| !query.contains(other))
+    {
+        ship.despawn_recursive();
+        return;
+    }
+}
+
 fn get_speed(keys: &Res<Input<KeyCode>>) -> f32 {
     let forward = keys.pressed(KeyCode::K);
     let backward = keys.pressed(KeyCode::J);
@@ -53,8 +75,9 @@ fn get_rotation(keys: &Res<Input<KeyCode>>, time: &Res<Time>) -> f32 {
 }
 
 fn get_roll(keys: &Res<Input<KeyCode>>, time: &Res<Time>) -> f32 {
-    let roll = keys.pressed(KeyCode::ShiftLeft) as i8;
-    roll as f32 * SHIP_ROTATION_SPEED * time.delta_seconds()
+    let left = keys.pressed(KeyCode::ShiftLeft) as i8;
+    let right = keys.pressed(KeyCode::ShiftRight) as i8;
+    (left - right) as f32 * SHIP_ROTATION_SPEED * time.delta_seconds()
 }
 
 fn spaceship_movement_controls(
@@ -62,8 +85,9 @@ fn spaceship_movement_controls(
     keys: Res<Input<KeyCode>>,
     time: Res<Time>,
 ) {
-    let (mut transform, mut velocity) = query.single_mut();
-
+    let Ok((mut transform, mut velocity)) = query.get_single_mut() else {
+        return;
+    };
     // `-` because the asset is backward.
     velocity.0 = -transform.forward() * get_speed(&keys);
     transform.rotate_y(get_rotation(&keys, &time));
@@ -76,7 +100,9 @@ fn spaceship_weapon_controls(
     keys: Res<Input<KeyCode>>,
     assets: Res<SceneAssets>,
 ) {
-    let ship_transform = query.single();
+    let Ok(ship_transform) = query.get_single() else {
+        return;
+    };
     let ship_translation = ship_transform.translation;
     let forward = -ship_transform.forward(); // direction of local Z axis
     if keys.pressed(KeyCode::Space) {
@@ -104,7 +130,11 @@ impl Plugin for SpaceshipPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(PostStartup, spawn_spaceship).add_systems(
             Update,
-            (spaceship_movement_controls, spaceship_weapon_controls),
+            (
+                handle_collision,
+                spaceship_movement_controls,
+                spaceship_weapon_controls,
+            ),
         );
     }
 }
