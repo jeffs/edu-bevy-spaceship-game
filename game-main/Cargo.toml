@@ -1,11 +1,13 @@
 [package]
-name = "spaceship-game"
+name = "game-main"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 bevy = "0.12.1"
 rand = "0.8.5"
+
+game-camera = { path = "../game-camera" }
 
 [features]
 debug = []

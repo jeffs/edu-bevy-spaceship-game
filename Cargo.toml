@@ -1,5 +1,5 @@
 [workspace]
-members = ["game"]
+members = ["game-camera", "game-main"]
 
 resolver = "2"
 

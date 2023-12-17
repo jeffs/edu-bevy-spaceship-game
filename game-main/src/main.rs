@@ -6,7 +6,9 @@ mod plugins;
 
 #[cfg(feature = "debug")]
 use crate::plugins::DebugPlugin;
-use crate::plugins::{CameraPlugin, MovementPlugin, SpaceshipPlugin};
+use crate::plugins::{MovementPlugin, SpaceshipPlugin};
+
+use game_camera::CameraPlugin;
 
 use bevy::prelude::*;
 use plugins::{AssetLoaderPlugin, AsteroidPlugin, CollisionDetectionPlugin, DespawnPlugin};

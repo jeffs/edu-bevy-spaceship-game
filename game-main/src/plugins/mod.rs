@@ -1,6 +1,5 @@
 mod assets;
 mod asteroids;
-mod camera;
 mod collisions;
 mod debug;
 mod despawn;
@@ -9,7 +8,6 @@ mod spaceship;
 
 pub use assets::AssetLoaderPlugin;
 pub use asteroids::AsteroidPlugin;
-pub use camera::CameraPlugin;
 pub use collisions::CollisionDetectionPlugin;
 pub use debug::DebugPlugin;
 pub use despawn::DespawnPlugin;
