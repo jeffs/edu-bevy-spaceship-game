@@ -1,3 +1,5 @@
+#![allow(dead_code, unused_mut, unused_variables)]
+
 mod bundles;
 mod components;
 mod plugins;
