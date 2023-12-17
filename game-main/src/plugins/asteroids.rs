@@ -38,7 +38,7 @@ fn handle_collision(mut commands: Commands, query: Query<(Entity, &Collider), Wi
             // This asteroid was already despawned.
             continue;
         };
-        for other in collider
+        for _other in collider
             .collisions
             .iter()
             .cloned()

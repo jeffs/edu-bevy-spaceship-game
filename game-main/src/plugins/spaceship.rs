@@ -38,26 +38,17 @@ fn spawn_spaceship(mut commands: Commands, assets: Res<SceneAssets>) {
     ));
 }
 
-fn handle_collision(
-    mut commands: Commands,
-    mut query: Query<(Entity, &Collider), With<Spaceship>>,
-) {
+fn handle_collision(mut commands: Commands, query: Query<(Entity, &Collider), With<Spaceship>>) {
     let Ok((entity, collider)) = query.get_single() else {
         return;
     };
     let Some(ship) = commands.get_entity(entity) else {
         return;
     };
-    for other in collider
-        .collisions
-        .iter()
-        .cloned()
-        // Ignore collisions with other asteroids.
-        .filter(|&other| !query.contains(other))
-    {
-        ship.despawn_recursive();
+    if collider.collisions.is_empty() {
         return;
     }
+    ship.despawn_recursive();
 }
 
 fn get_speed(keys: &Res<Input<KeyCode>>) -> f32 {

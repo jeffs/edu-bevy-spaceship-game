@@ -2,15 +2,12 @@ use bevy::prelude::*;
 
 const DESPAWN_DISTANCE: f32 = 100.0; // m
 
-fn despawn_far_away_entities(
-    mut commands: Commands,
-    query: Query<(Entity, &GlobalTransform)>,
-    world: &World,
-) {
-    for (entity, transform) in query.iter().filter(|(_, transform)| {
+fn despawn_far_away_entities(mut commands: Commands, query: Query<(Entity, &GlobalTransform)>) {
+    for entity in query.iter().filter_map(|(entity, transform)| {
         // Delete anything far away, but only in the XZ plane (so we don't delete the camera).
         let translation = transform.translation();
-        translation.distance(Vec3::ZERO) > DESPAWN_DISTANCE && translation.y == 0.0
+        (translation.distance(Vec3::ZERO) > DESPAWN_DISTANCE && translation.y == 0.0)
+            .then_some(entity)
     }) {
         let Some(mut thing) = commands.get_entity(entity) else {
             // The entity was already despawned.

@@ -1,17 +1,17 @@
-#![allow(dead_code, unused_mut, unused_variables)]
-
 mod bundles;
 mod components;
 mod plugins;
 
 #[cfg(feature = "debug")]
 use crate::plugins::DebugPlugin;
-use crate::plugins::{MovementPlugin, SpaceshipPlugin};
+use crate::plugins::{
+    AssetLoaderPlugin, AsteroidPlugin, CollisionDetectionPlugin, DespawnPlugin, MovementPlugin,
+    SpaceshipPlugin,
+};
 
 use game_camera::CameraPlugin;
 
 use bevy::prelude::*;
-use plugins::{AssetLoaderPlugin, AsteroidPlugin, CollisionDetectionPlugin, DespawnPlugin};
 
 fn main() {
     let mut app = App::new();
