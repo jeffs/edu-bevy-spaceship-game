@@ -11,7 +11,7 @@ fn load_assets(mut scene_assets: ResMut<SceneAssets>, asset_server: Res<AssetSer
     *scene_assets = SceneAssets {
         asteroid: asset_server.load("Rock.glb#Scene0"),
         spaceship: asset_server.load("Spaceship.glb#Scene0"),
-        missile: asset_server.load("Rock.glb#Scene0"),
+        missile: asset_server.load("Bullets Pickup.glb#Scene0"),
     }
 }
 
