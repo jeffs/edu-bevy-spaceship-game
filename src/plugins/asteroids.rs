@@ -13,7 +13,7 @@ use super::assets::SceneAssets;
 const SPAWN_RANGE_X: Range<f32> = -25.0..25.0; // m
 const SPAWN_RANGE_Z: Range<f32> = 0.0..25.0; // m
 const SPEED: f32 = 5.0; // m/s
-const ACCELERATION_MAGNITUDE: f32 = 0.0; // m/s/s
+const ACCELERATION_MAGNITUDE: f32 = 1.0; // m/s/s
 const SPAWN_TIME: f32 = 1.0; // s
 const RADIUS: f32 = 2.0; // m
 const ROTATION_SPEED: f32 = std::f32::consts::PI; // rad/s
