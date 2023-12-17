@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::bundles::MovingObjectBundle;
-use crate::components::{Acceleration, Velocity};
+use crate::components::{Acceleration, Collider, Velocity};
 
 use super::assets::SceneAssets;
 
@@ -28,6 +28,7 @@ fn spawn_spaceship(mut commands: Commands, assets: Res<SceneAssets>) {
                 transform: Transform::from_translation(SHIP_TRANSLATION),
                 ..default()
             },
+            collider: Collider::from_radius(4.0),
         },
         Spaceship,
     ));
@@ -81,6 +82,7 @@ fn spaceship_weapon_controls(
             MovingObjectBundle {
                 velocity: Velocity(forward * MISSILE_SPEED),
                 acceleration: Acceleration(Vec3::ZERO),
+                collider: Collider::from_radius(1.0),
                 model: SceneBundle {
                     scene: assets.missile.clone(),
                     transform: Transform::from_translation(

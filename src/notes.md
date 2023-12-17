@@ -14,3 +14,7 @@
   - Mesh -- vertex and index data for rendering the model
   - Material -- how model interacts with light; how it looks like when rendered
   - Other components for animation, skinning, etc.
+
+Physics engines:
+* [Rapier](https://rapier.rs/docs/user_guides/bevy_plugin/getting_started_bevy/)
+* [bevy_xpbd](https://github.com/Jondolf/bevy_xpbd)

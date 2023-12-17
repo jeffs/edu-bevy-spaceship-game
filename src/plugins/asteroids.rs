@@ -5,7 +5,7 @@ use rand::Rng;
 
 use crate::{
     bundles::MovingObjectBundle,
-    components::{Acceleration, Velocity},
+    components::{collider::Collider, Acceleration, Velocity},
 };
 
 use super::assets::SceneAssets;
@@ -17,6 +17,8 @@ const VELOCITY_MAGNITUDE: f32 = 5.0; // aka speed
 const ACCELERATION_MAGNITUDE: f32 = 1.0;
 
 const SPAWN_TIME_SECONDS: f32 = 1.0;
+
+const RADIUS: f32 = 2.0;
 
 #[derive(Component, Debug)]
 pub struct Asteroid;
@@ -57,9 +59,25 @@ fn spawn_asteroid(
                 transform: Transform::from_translation(translation),
                 ..default()
             },
+            collider: Collider::from_radius(RADIUS),
         },
         Asteroid,
     ));
+}
+
+fn handle_collision(mut commands: Commands, query: Query<(Entity, &Collider), With<Asteroid>>) {
+    for (entity, collider) in query.iter() {
+        for other in collider
+            .collisions
+            .iter()
+            .cloned()
+            // Ignore collisions with other asteroids.
+            .filter(|&other| !query.contains(other))
+        {
+            // Despawn the asteroid.
+            commands.entity(entity).despawn_recursive();
+        }
+    }
 }
 
 pub struct AsteroidPlugin;
@@ -70,6 +88,6 @@ impl Plugin for AsteroidPlugin {
             SPAWN_TIME_SECONDS,
             TimerMode::Repeating,
         )))
-        .add_systems(Update, spawn_asteroid);
+        .add_systems(Update, (spawn_asteroid, handle_collision));
     }
 }

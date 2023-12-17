@@ -1,3 +1,5 @@
+#![allow(dead_code, unused_mut, unused_variables)]
+
 mod bundles;
 mod components;
 mod plugins;
@@ -7,7 +9,7 @@ use crate::plugins::DebugPlugin;
 use crate::plugins::{CameraPlugin, MovementPlugin, SpaceshipPlugin};
 
 use bevy::prelude::*;
-use plugins::{asteroids::AsteroidPlugin, AssetLoaderPlugin};
+use plugins::{asteroids::AsteroidPlugin, AssetLoaderPlugin, CollisionDetectionPlugin};
 
 fn main() {
     let mut app = App::new();
@@ -15,6 +17,7 @@ fn main() {
         AssetLoaderPlugin,
         AsteroidPlugin,
         CameraPlugin,
+        CollisionDetectionPlugin,
         MovementPlugin,
         SpaceshipPlugin,
     ));
