@@ -12,6 +12,10 @@ const SHIP_ROTATION_SPEED: f32 = 2.5; // radians
 const MISSILE_OFFSET: f32 = 7.5; // m
 const MISSILE_SPEED: f32 = 50.0; // m/s
 
+// For collision detection.
+const SHIP_RADIUS: f32 = 4.0; // m
+const MISSILE_RADIUS: f32 = 1.0; // m
+
 #[derive(Component, Debug)]
 struct Missile;
 
@@ -28,7 +32,7 @@ fn spawn_spaceship(mut commands: Commands, assets: Res<SceneAssets>) {
                 transform: Transform::from_translation(SHIP_TRANSLATION),
                 ..default()
             },
-            collider: Collider::from_radius(4.0),
+            collider: Collider::from_radius(SHIP_RADIUS),
         },
         Spaceship,
     ));
@@ -82,7 +86,7 @@ fn spaceship_weapon_controls(
             MovingObjectBundle {
                 velocity: Velocity(forward * MISSILE_SPEED),
                 acceleration: Acceleration(Vec3::ZERO),
-                collider: Collider::from_radius(1.0),
+                collider: Collider::from_radius(MISSILE_RADIUS),
                 model: SceneBundle {
                     scene: assets.missile.clone(),
                     transform: Transform::from_translation(
