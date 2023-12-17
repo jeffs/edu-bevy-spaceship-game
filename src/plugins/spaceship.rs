@@ -5,9 +5,9 @@ use crate::components::{Acceleration, Velocity};
 
 use super::assets::SceneAssets;
 
-const STARTING_TRANSLATION: Vec3 = Vec3::new(0.0, 0.0, -20.0);
-const SPEED: f32 = 25.0;
-const ROTATION_SPEED: f32 = 2.5;
+const STARTING_TRANSLATION: Vec3 = Vec3::new(0.0, 0.0, -20.0); // m
+const SPEED: f32 = 25.0; // m/s
+const ROTATION_SPEED: f32 = 2.5; // radians
 
 #[derive(Component, Debug)]
 struct Spaceship;
@@ -34,16 +34,31 @@ fn get_speed(keys: &Res<Input<KeyCode>>) -> f32 {
     direction as f32 * SPEED
 }
 
+fn get_rotation(keys: &Res<Input<KeyCode>>, time: &Res<Time>) -> f32 {
+    let left = keys.pressed(KeyCode::H);
+    let right = keys.pressed(KeyCode::L);
+    let rotation = left as i8 - right as i8;
+    rotation as f32 * ROTATION_SPEED * time.delta_seconds()
+}
+
+fn get_roll(keys: &Res<Input<KeyCode>>, time: &Res<Time>) -> f32 {
+    let left = keys.pressed(KeyCode::ShiftLeft);
+    let right = keys.pressed(KeyCode::ShiftRight);
+    let roll = left as i8 - right as i8;
+    roll as f32 * ROTATION_SPEED * time.delta_seconds()
+}
+
 fn spaceship_movement_controls(
     mut query: Query<(&mut Transform, &mut Velocity), With<Spaceship>>,
     keys: Res<Input<KeyCode>>,
     time: Res<Time>,
 ) {
-    let (transform, mut velocity) = query.single_mut();
-    let (rotation, roll) = (0.0, 0.0);
+    let (mut transform, mut velocity) = query.single_mut();
 
     // `-` because the asset is backward.
     velocity.0 = -transform.forward() * get_speed(&keys);
+    transform.rotate_y(get_rotation(&keys, &time));
+    transform.rotate_local_z(-get_roll(&keys, &time));
 }
 
 pub struct SpaceshipPlugin;
