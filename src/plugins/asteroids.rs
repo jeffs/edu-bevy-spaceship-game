@@ -57,11 +57,9 @@ fn rotate_asteroids(
 ) {
     for (velocity, global_transform, mut transform) in query.iter_mut() {
         transform.rotate_axis(
-            velocity.0.normalize(),
+            velocity.0.normalize_or_zero(),
             ROTATION_SPEED * time.delta_seconds(),
         );
-        // transform.rotate_local_z(ROTATION_SPEED * time.delta_seconds());
-        debug_assert_eq!(transform.scale, Vec3::ONE);
         debug_assert_eq!(transform.translation.y, 0.0);
         debug_assert_eq!(global_transform.translation().y, 0.0);
     }
