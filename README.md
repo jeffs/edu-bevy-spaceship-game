@@ -24,3 +24,11 @@ To run in the browser:
 cd game-main
 cargo run --target=wasm32-unknown-unknown
 ```
+
+# Links
+
+* Bevy/WASM
+  - <https://bevy-cheatbook.github.io/platforms/wasm.html>
+  - <https://bevy-cheatbook.github.io/platforms/wasm/webpage.html>
+* Hosting
+  - <https://dashboard.render.com/>
