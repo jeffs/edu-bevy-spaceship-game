@@ -10,7 +10,13 @@
         throw error;
       }
     });
+    const intervalId = setInterval(function () {
+      const canvas = document.getElementsByTagName("canvas");
+      if (canvas.length) {
+        canvas[0].focus();
+        clearInterval(intervalId);
+      }
+    }, 500);
   </script>
 </body>
-
 </html>
